@@ -29,10 +29,6 @@ UC_7.3 ..> UC_7 : include
 UC_7.4 ..> UC_7: include
 UC_7.1 .> UC_7: include
 
-note right of UC_7.2 #eeffee
-Використання малюнків,
-фотографії, аудіофалів, відео
-end note
 
 right footer
 
