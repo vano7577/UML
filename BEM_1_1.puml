@@ -1,0 +1,100 @@
+@startuml BEM_1.1
+
+right header
+<font size=24 color=black>Package: <b>BEM_1.1
+
+end header
+
+title
+<font size=18 color=black>Аналітичний портал
+<font size=16 color=black>BE-модель
+end title
+
+entity "Користувач" as User #LightGreen
+entity "Ім'я\nкористувача" as User.name #LightGreen
+entity "Фото\nкористувача" as User.photo #LightGreen
+entity "Поштова адреса\nкористувача" as User.email #LightGreen
+
+User.name -d-*User
+User.photo -d-*User
+User.email -d-*User
+
+entity "Роль" as Role #LightBlue
+entity "Назва ролі" as Role.name #LightBlue
+entity "Опис ролі" as Role.description #LightBlue
+
+Role.description --* Role
+Role.name --* Role
+
+entity "Доступ" as Access #Yellow
+
+Access "0,*" -u- "1,1" Role 
+Access "0,*" -- "1,1" User
+
+entity "Опитування" as Poll #LightCoral
+entity "Є шаблоном\nопитування" as Poll.isTemplate #LightCoral
+entity "Ідентифікатор\nопитування" as Poll.id #LightCoral
+entity "Назва\nопитування" as Poll.name #LightCoral
+entity "Звіт" as Report #LightCoral
+
+Access "0,*" -right- "0,1" Poll
+Poll.isTemplate  ---o  Poll
+Poll.name --* Poll
+Report  ---o  Poll
+Poll.id --* Poll
+
+entity "Посилання" as Link #GoldenRod
+entity "Тег" as Tag #GoldenRod
+entity "Назва тегу" as Tag.name #GoldenRod
+
+Link "0,*" -u- "1,1" Poll
+Tag "1,1" -u- "0,*" Link
+Tag.name -right-* Tag
+
+entity "Завдання" as Task #FFBB22
+entity "Є мультимедія" as Task.multimedia #FFBB22
+
+entity "Вибір" as Task.choise #FFBB22
+entity "Назва вибору" as Task.choise.name #FFBB22
+entity "Одиничний" as Task.choise.single #FFBB22
+entity "Множинний" as Task.choise.multiple #FFBB22
+
+Poll "1,1" - "0,*" Task
+Task.multimedia -r-o Task
+Task.choise "1,1" -u- "0.*" Task
+Task.choise.name -r-* Task.choise
+Task.choise.single .u.> Task.choise: insanceOf
+Task.choise.multiple .u.> Task.choise: insanceOf
+
+entity "Питання" as Question #LightSeaGreen
+entity "Ідентифікатор\nпитання" as Question.id #LightSeaGreen
+entity "Значення\nпитання" as Question.value #LightSeaGreen
+
+Question.id -d-* Question
+Task "0,*" -- "1,1" Question 
+Question.value -l-* Question 
+
+entity "Відповідь" as Answer #00DD00
+
+entity "Ідентифікатор відповіді" as Answer.id #00DD00
+
+entity "Значення\nвідповіді" as Answer.value #00DD00
+entity "Назва значення\n відповіді" as Answer.value.name #00DD00
+entity "Власна відповідь" as Answer.value.your #00DD00
+entity "Відповідь автора" as Answer.value.author #00DD00
+Task "0.*" -u- "1.*" Answer 
+Answer.id -u-* Answer
+Answer "0.*" -r- "1.1" Answer.value 
+Answer.value.name -r-* Answer.value
+
+Answer.value.author ..> Answer.value: insanceOf
+Answer.value.your ..> Answer.value: insanceOf
+
+right footer
+
+Аналітичний портал. Business Entity Model.
+НТУУ КПІ ім.І.Сікорського
+Киів-2020
+end footer
+
+@enduml

@@ -1,0 +1,155 @@
+@startuml
+
+right header
+<font size=24 color=black>Package: <b>ERM_1.0
+
+end header
+
+title
+<font size=18 color=black> Аналітичний портал
+<font size=16 color=black>ER-модель 
+
+
+end title
+
+package "  User Profile Management" {
+	entity User #LightGreen {
+		name
+		photo
+		email
+	}
+}	
+	
+package "Global Settings" {
+	entity Variable #ffeeee {
+		name
+		value
+	}
+}
+package Domain {
+	entity Poll #LightCoral {
+		id
+		name
+		isTemplate
+        report
+	}
+	package "Data Structurization"{
+		entity Tag #GoldenRod {
+			name
+		}	
+		
+		entity Link	#GoldenRod
+        Tag "1.1" <-- "0.*" Link #Blue
+        Link  "\n0.*" --> "1.1" Poll #Green
+    }
+    package "Data Value"{
+    entity Task #FB2{
+        isMultimedia
+    }
+    entity Choise #FB2{
+        name
+    }
+    object single #white
+    object multiple #white
+
+    Choise "1.1" <-- "0.*" Task #Blue
+    single ..> Choise:instanseOf
+    multiple ..> Choise:instanseOf
+
+    entity Answer #0D0 {
+        id
+    }
+    entity AnswerValue #0D0 {
+        name
+    }
+    object AnswerValueYour #white
+    object AnswerValueAuthor #white
+    
+  
+    Task "0.*" --> "1.*" Answer #Blue
+    Answer "0.*" --> "1.1" AnswerValue #Blue
+    AnswerValueYour  .u.> AnswerValue:instanseOf
+    AnswerValueAuthor  .u.> AnswerValue:instanseOf
+
+    entity Question #LightSeaGreen {
+        id
+        value 
+    }
+    Question "1.1" <-- "0.*" Task  #Blue
+    }
+    Poll "1.1" <- "0.*" Task  #Green
+}
+package "Access Policy" {	
+
+    entity Role #LightBlue {
+        name
+    }
+    object admin #White
+    object collaborator #White
+    object expert #White
+    object author #white
+    object analyst #white
+
+    admin ..> Role:instanseOf
+    collaborator ..> Role:instanseOf
+    expert ..> Role:instanseOf
+    author ..> Role:instanseOf
+    analyst .l.> Role:instanseOf
+
+    entity Grant #9999FF
+    entity RequestType #9999FF{
+        name
+    }
+    entity OperationType #eeeeff{
+        name
+    }
+
+    object read #white
+    object create #white
+    object delete #white
+    object update #white
+    object distribute #white
+
+    read  .u.>OperationType:instanseOf
+    create .u.>OperationType:instanseOf
+    delete .u.>OperationType:instanseOf
+    update .u.>OperationType:instanseOf
+    distribute .l.>OperationType:instanseOf
+
+    entity ObjectType #eeeeff{
+        name
+    }
+
+    object poll #white
+    object question #white
+    object answer #white
+    object tag #white
+    object user #white
+    object role #white
+
+    poll .u.>ObjectType:instanseOf
+    question .l.>ObjectType:instanseOf
+    answer .u.>ObjectType:instanseOf
+    tag .u.>ObjectType:instanseOf
+    user .u.>ObjectType:instanseOf
+    role .u.>ObjectType:instanseOf
+
+    entity Access #yellow
+  
+    Access "0.*" --> "   0.1" Poll #Green
+    Access "0.*\n\n" -u-> "\n1.1" User #Green
+    Access "0.*" --> "1.1" Role #Blue
+    
+    Grant "0.*" -u-> "1.1" Role #Blue
+    Grant "0.*" --> "1.1" RequestType #Blue
+    OperationType "0.1    " <-- "0.*" RequestType #Blue
+    RequestType "0.*" --> "0.1"  ObjectType #Blue
+  
+}
+right footer
+
+НТУУ КПІ ім.І.Сікорського
+Киів-2020 
+end footer
+
+@enduml
