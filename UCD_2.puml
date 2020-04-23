@@ -1,35 +1,38 @@
-@startuml UCD_2.0
+@startuml UCD_3.0
 
 right header
-<font size=24 color=black>Package:<b> UCD_2.0
+<font size=24 color=black>Package:<b> UCD_3.0
 
 end header
 
 title
-<font size=18 color=black>UC_6. Аналіз результатів опитування
+<font size=18 color=black>UC_7. Редагувати опитування
 <font size=16 color=black>Діаграма прецедентів
 
 
 end title
 
 package UCD_1.0 {
-usecase "<b>UC_6</b>\nАналіз результатів опитування" as UC_6 #Yellow
+usecase "<b>UC_7</b>\nРедагувати опитування" as UC_7 #Green
 }
 
-actor "Аналітик" as Analyst #LightYellow
+actor "Редактор" as Collaborator
+usecase "<b>UC_7.1</b>\nЗмінювати типи \n поставлених питань" as UC_7.1  #LightGreen
+usecase "<b>UC_7.2</b>\nДодавати мультимедійні \n запитання"  as UC_7.2 #LightGreen
+usecase "<b>UC_7.3</b>\nЗмінювати структуру \n опитування" as UC_7.3  #LightGreen
+usecase "<b>UC_7.4</b>\nСтворювати персоналізовані \n питання" as UC_7.4  #LightGreen
 
-usecase "<b>UC_6.1</b>\nУзагальнення результатiв" as UC_6.1
-usecase "<b>UC_6.2</b>\nПорівняння з \n попередніми результатами" as UC_6.2
-usecase "<b>UC_6.3</b>\nПрогназування \n майбутніх результатів" as UC_6.3
-usecase "<b>UC_6.4</b>\nФормування звіту" as UC_6.4
+Collaborator -> UC_7
 
-UC_6.1 <.. UC_6: extends
-UC_6.2 <.r. UC_6: extends
-UC_6.3 <.u. UC_6: extends
-UC_6.4 .u.> UC_6: include
+UC_7.2 .u.> UC_7 : include
+UC_7.3 ..> UC_7 : include
+UC_7.4 ..> UC_7: include
+UC_7.1 .> UC_7: include
 
-Analyst -> UC_6
-
+note right of UC_7.2 #eeffee
+Використання малюнків,
+фотографії, аудіофалів, відео
+end note
 
 right footer
 
